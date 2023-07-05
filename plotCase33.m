@@ -1,4 +1,4 @@
-function plotCase33(z)
+function plotCase33(z, c, genBus, energized, picked)
 branch = [
 1	2	0.0922	0.0470	0	4.60	4.60	4.60	0	0	1	-360	360
 2	3	0.4930	0.2511	0	4.10	4.10	4.10	0	0	1	-360	360
@@ -44,7 +44,6 @@ branch = [
 
 f = branch(:, 1);
 t = branch(:, 2);
-G = graph(f, t);
 XData = zeros(33, 1);
 YData = zeros(33, 1);
 
@@ -77,10 +76,6 @@ end
 figure('Position', [100, 100, 800, 500]);
 hold on;
 
-% Draw nodes
-nodeSize = 30;
-nodeColor = 'k';
-scatter(XData, YData, nodeSize, nodeColor, 'filled');
 
 % Draw edges
 for i = 1:size(branch, 1)
@@ -90,12 +85,18 @@ for i = 1:size(branch, 1)
     y1 = YData(node1);
     x2 = XData(node2);
     y2 = YData(node2);
-    if z(i) == 1
+    ifMarker = false;
+    if z(i) == 1 && c(i) == 1
     line_spec = "-";
     color = 'black';
-    else
+    
+    elseif z(i) == 1 && c(i) == 0
     line_spec = "--";
     color = [0.5, 0.5, 0.5];
+    elseif z(i) == 0
+        line_spec = "--";
+        color = [1 0 0];
+        ifMarker = true;
     end
     if node1 == 9 && node2 == 15
         % Modify edge position to avoid overlapping
@@ -104,16 +105,41 @@ for i = 1:size(branch, 1)
         plot([x1, x2], [y1prime, y2prime], line_spec, 'Color', color);
         plot([x1, x1], [y1, y1prime], line_spec, 'Color', color);
         plot([x2, x2], [y1, y1prime], line_spec, 'Color', color);
+        if ifMarker
+            scatter(mean([x1, x2]), mean([y1prime, y2prime]), 100, 'x', 'MarkerEdgeColor',[1,0,0]);
+        end
     elseif node1 == 8 && node2 == 21
         % Modify edge position to avoid overlapping
-        y1prime = y1 + 1;
-        y2prime = y2 + 1;
         plot([x1, x1], [y1, mean([y1, y2])], line_spec, 'Color', color);
         plot([x1, x2], [mean([y1, y2]), mean([y1, y2])], line_spec, 'Color', color);
         plot([x2, x2], [mean([y1, y2]), y2], line_spec, 'Color', color);
+        if ifMarker
+            scatter(mean([x1, x2]), mean([mean([y1, y2]), mean([y1, y2])]), 100, 'x', 'MarkerEdgeColor',[1,0,0]);
+        end
     else
         plot([x1, x2], [y1, y2], line_spec, 'Color', color);
+        if ifMarker
+            scatter(mean([x1, x2]), mean([y1, y2]), 100, 'x', 'MarkerEdgeColor',[1,0,0]);
+        end
     end
+end
+
+% Draw nodes
+nodeSize = 50;
+for i = 1:33
+    if ismember(i, genBus)
+        
+        scatter(XData(i), YData(i), nodeSize, 'r^', 'filled');
+    else
+        if energized(i) == 1 && picked(i) == 1
+        scatter(XData(i), YData(i), nodeSize, 'filled', 'MarkerFaceColor', [0, 1, 0]);
+        elseif energized(i) == 1 && picked(i) == 0
+        scatter(XData(i), YData(i), nodeSize, 'filled', 'MarkerFaceColor', [0, 0, 1]);
+        else
+        scatter(XData(i), YData(i), nodeSize, 'filled', 'MarkerFaceColor', 'black');
+
+        end
+    end 
 end
 
 % Draw node labels
