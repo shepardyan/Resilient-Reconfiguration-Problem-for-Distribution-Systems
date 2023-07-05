@@ -1,5 +1,7 @@
 # Resilient Reconfiguration Problem for Distribution Systems
 
+This is an implementation of resilient reconfiguration problem for distribution systems. This is not an official implementation of the original paper, so please test this yourself before using it, and please tell me if you find any errors.
+
 ## Code usage
 
 ```MATLAB
