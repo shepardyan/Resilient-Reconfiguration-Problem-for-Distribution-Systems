@@ -118,13 +118,13 @@ for i = 1:size(branch, 1)
         plot([x1, x1], [y1, y1prime], line_spec, 'Color', color);
         plot([x2, x2], [y1, y1prime], line_spec, 'Color', color);
         if ifMarker
-            scatter(mean([x1, x2]), mean([y1prime, y2prime]), 100, 'x', 'MarkerEdgeColor',[1,0,0]);
+            scatter(mean([x1, x2]), mean([y1prime, y2prime]), 200, 'x', 'MarkerEdgeColor',[1,0,0]);
         end
         if ifOpen
-            scatter(mean([x1, x2]), mean([y1prime, y2prime]), 100, 's', 'MarkerEdgeColor',[0,1,0], 'MarkerFaceColor','none');
+            scatter(mean([x1, x2]), mean([y1prime, y2prime]), 200, 's', 'MarkerEdgeColor',[0,1,0], 'MarkerFaceColor','none');
         end
         if ifClose
-            scatter(mean([x1, x2]), mean([y1prime, y2prime]), 100, 's', 'MarkerEdgeColor',[0,1,0], 'MarkerFaceColor',[0,1,0]);
+            scatter(mean([x1, x2]), mean([y1prime, y2prime]), 200, 's', 'MarkerEdgeColor',[0,1,0], 'MarkerFaceColor',[0,1,0]);
         end
 
     elseif node1 == 8 && node2 == 21
@@ -133,24 +133,24 @@ for i = 1:size(branch, 1)
         plot([x1, x2], [mean([y1, y2]), mean([y1, y2])], line_spec, 'Color', color);
         plot([x2, x2], [mean([y1, y2]), y2], line_spec, 'Color', color);
         if ifMarker
-            scatter(mean([x1, x2]), mean([mean([y1, y2]), mean([y1, y2])]), 100, 'x', 'MarkerEdgeColor',[1,0,0]);
+            scatter(mean([x1, x2]), mean([mean([y1, y2]), mean([y1, y2])]), 200, 'x', 'MarkerEdgeColor',[1,0,0]);
         end
         if ifOpen
-            scatter(mean([x1, x2]), mean([mean([y1, y2]), mean([y1, y2])]), 100, 's', 'MarkerEdgeColor',[0,1,0], 'MarkerFaceColor','none');
+            scatter(mean([x1, x2]), mean([mean([y1, y2]), mean([y1, y2])]), 200, 's', 'MarkerEdgeColor',[0,1,0], 'MarkerFaceColor','none');
         end
         if ifClose
-            scatter(mean([x1, x2]), mean([mean([y1, y2]), mean([y1, y2])]), 100, 's', 'MarkerEdgeColor',[0,1,0], 'MarkerFaceColor',[0,1,0]);
+            scatter(mean([x1, x2]), mean([mean([y1, y2]), mean([y1, y2])]), 200, 's', 'MarkerEdgeColor',[0,1,0], 'MarkerFaceColor',[0,1,0]);
         end
     else
         plot([x1, x2], [y1, y2], line_spec, 'Color', color);
         if ifMarker
-            scatter(mean([x1, x2]), mean([y1, y2]), 100, 'x', 'MarkerEdgeColor',[1,0,0]);
+            scatter(mean([x1, x2]), mean([y1, y2]), 200, 'x', 'MarkerEdgeColor',[1,0,0]);
         end
         if ifOpen
-            scatter(mean([x1, x2]), mean([y1, y2]), 100, 's', 'MarkerEdgeColor',[0,1,0], 'MarkerFaceColor','none');
+            scatter(mean([x1, x2]), mean([y1, y2]), 200, 's', 'MarkerEdgeColor',[0,1,0], 'MarkerFaceColor','none');
         end
         if ifClose
-            scatter(mean([x1, x2]), mean([y1, y2]), 100, 's', 'MarkerEdgeColor',[0,1,0], 'MarkerFaceColor',[0,1,0]);
+            scatter(mean([x1, x2]), mean([y1, y2]), 200, 's', 'MarkerEdgeColor',[0,1,0], 'MarkerFaceColor',[0,1,0]);
         end
     end
 end

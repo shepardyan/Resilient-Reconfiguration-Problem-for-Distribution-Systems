@@ -24,6 +24,7 @@ epsilon = binvar(nb, 1); % If energized by power sources
 delta = binvar(nb, 1);   % If picked up
 flow = sdpvar(nl, 1);    % Auxiliary variables for radial topology
 
+
 % Initialize constraint list
 constraints = [];
 
@@ -129,7 +130,8 @@ constraints = [constraints, Pg >= mpc.gen(:, PMIN) / mpc.baseMVA, Pg <= mpc.gen(
 constraints = [constraints, Qg >= mpc.gen(:, QMIN) / mpc.baseMVA, Qg <= mpc.gen(:, QMAX) / mpc.baseMVA];
 
 % Nodal pickup constraint
-constraints = [constraints, delta >= epsilon, epsilon(genBus) == 1];  % Equation (A11) and (A12)
+constraints = [constraints, delta <= epsilon, epsilon(genBus) == 1];  % Equation (A11) and (A12)
+
 for i = 1:length(loadBus)
     lNode = loadBus(i);
     from_branch = find(mpc.branch(:, F_BUS) == lNode);
@@ -137,8 +139,17 @@ for i = 1:length(loadBus)
     to_branch = find(mpc.branch(:, T_BUS) == lNode);
     jNodeTo = mpc.branch(to_branch, F_BUS);
     brhNum = length(from_branch) + length(to_branch);
-    constraints = [constraints, epsilon(lNode) <= sum(epsilon(jNodeFrom) .* c(from_branch)) + sum(epsilon(jNodeTo) .* c(to_branch)),...
-                                      epsilon(lNode) >= (sum(epsilon(jNodeFrom) .* c(from_branch)) + sum(epsilon(jNodeTo) .* c(to_branch))) / brhNum];  % Equation (A13)
+    
+    nFrom = length(jNodeFrom);
+    nTo = length(jNodeTo);
+    ecFrom = binvar(nFrom, 1);
+    ecTo = binvar(nTo, 1);
+    constraints = [constraints, 0 <= ecFrom, 0 <= ecTo];
+    constraints = [constraints, c(from_branch) >= ecFrom, c(to_branch) >= ecTo];
+    constraints = [constraints, 0 <= epsilon(jNodeFrom) - ecFrom, 0 <= epsilon(jNodeTo) - ecTo];
+    constraints = [constraints, 1 - c(from_branch) >= epsilon(jNodeFrom) - ecFrom, 1 - c(to_branch) >= epsilon(jNodeTo) - ecTo];
+    constraints = [constraints, epsilon(lNode) <= sum(ecFrom) + sum(ecTo) , ...
+                                epsilon(lNode) >= (sum(ecFrom) + sum(ecTo)) / brhNum];  % Equation (A13)
 end
 
 
