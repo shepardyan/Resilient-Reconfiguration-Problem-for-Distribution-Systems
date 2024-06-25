@@ -22,7 +22,7 @@ A visualization function **only** for **IEEE 33 bus distribution system** is def
 
 ## Note for casedata (MATPOWER mpc)
 
-Branch power flow limits are set based on `RATE_A` column. If your casefile do not provide `RATE_A` data, please delete branch power flow limit constraints.
+Branch power flow limits are set based on `RATE_A` column. If your casefile do not provide `RATE_A` data, please relax branch power flow limit constraints (a large enough rate).
 
 ## Mathematical Model
 
